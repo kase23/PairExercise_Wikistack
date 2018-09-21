@@ -6,6 +6,7 @@ const layout = require("./views/layout");
 //what this line do?
 const app = express();
 const { db } = require('./models');
+const models = require ('./models')
 // const models = require('./models');
 const PORT = 3000;
 
@@ -25,7 +26,8 @@ then(() => {
 })
 
 const init = async() =>{
-  await db.sync()
+  await models.User.sync()
+  await models.Page.sync()
 
   app.listen(PORT, () => {
     console.log(`Server is listening on port ${PORT}!`)
