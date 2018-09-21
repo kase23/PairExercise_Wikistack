@@ -5,6 +5,9 @@ const html = require("html-template-tag");
 const layout = require("./views/layout");
 //what this line do?
 const app = express();
+const { db } = require('./models');
+// const models = require('./models');
+const PORT = 3000;
 
 //what this line do?
 app.use(morgan("dev"));
@@ -16,8 +19,21 @@ app.get("/", (req, res) => {
   res.send(layout(""));
 });
 
-const PORT = 3000;
+db.authenticate().
+then(() => {
+  console.log('connected to the database');
+})
 
-app.listen(PORT, () => {
-  console.log(`App listening in port ${PORT}`);
-});
+const init = async() =>{
+  await db.sync()
+
+  app.listen(PORT, () => {
+    console.log(`Server is listening on port ${PORT}!`)
+  })
+}
+init();
+
+
+// app.listen(PORT, () => {
+//   console.log(`App listening in port ${PORT}`);
+// });
